@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>4.26–4.30 深圳→重庆→成都</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f2f4f7;--card:#fff;--primary:#1a3a6b;--blue:#2980b9;--orange:#e67e22;--green:#27ae60;--purple:#8e44ad;--red:#c0392b;--gray:#95a5a6;--text:#2c3e50;--sub:#666;--line:#e1e8ed}
+body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:30px;scroll-behavior:smooth}
+
+/* 顶部 */
+.header{background:linear-gradient(135deg,#0f2550 0%,#1a3a6b 50%,#2a5298 100%);color:#fff;padding:20px 18px 18px;text-align:center}
+.header h1{font-size:1.15rem;font-weight:700;letter-spacing:.5px}
+.header .sub{font-size:.75rem;opacity:.75;margin-top:3px}
+.header .cities{display:flex;justify-content:center;gap:8px;margin-top:10px}
+.header .city-tag{background:rgba(255,255,255,.16);padding:3px 12px;border-radius:14px;font-size:.72rem;font-weight:600}
+
+/* 城市导航 */
+.city-nav{position:sticky;top:0;z-index:50;display:flex;background:var(--card);box-shadow:0 1px 8px rgba(0,0,0,.08);gap:2px;padding:4px 8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.city-nav button{flex:1;min-width:56px;padding:9px 4px;border:none;background:none;color:var(--sub);font-size:.76rem;font-weight:700;border-radius:8px;cursor:pointer;transition:.2s;white-space:nowrap;text-align:center;border-bottom:2px solid transparent}
+.city-nav button.on{color:var(--primary);border-bottom-color:var(--primary);background:rgba(26,58,107,.05)}
+.day-section{display:block;animation:fade .25s ease;scroll-margin-top:56px}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* 日期头 */
+.day-head{display:flex;align-items:center;justify-content:space-between;background:var(--card);margin:10px 12px 0;padding:13px 15px;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.day-num{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;font-weight:800;color:#fff;flex-shrink:0}
+.day-info h3{font-size:.92rem;font-weight:700}
+.day-info p{font-size:.73rem;color:var(--sub);margin-top:1px}
+.badge{font-size:.65rem;padding:2px 8px;border-radius:8px;font-weight:700;white-space:nowrap}
+
+/* 内容区 */
+.body{padding:0 12px 14px}
+
+/* 信息条 */
+.info-row{display:flex;align-items:center;gap:8px;padding:9px 13px;background:var(--card);border-radius:10px;margin-top:8px;font-size:.82rem}
+.info-icon{font-size:1rem;flex-shrink:0}
+.info-label{color:var(--sub);font-size:.7rem;min-width:48px;flex-shrink:0}
+.info-val{font-weight:600;flex:1}
+
+/* 时间线 */
+.tl{padding-left:24px;position:relative}
+.tl::before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line);border-radius:1px}
+.item{position:relative;margin-bottom:10px}
+.item:last-child{margin-bottom:0}
+.dot{position:absolute;left:-21px;top:7px;width:11px;height:11px;border-radius:50%;border:2px solid var(--card);z-index:1}
+.time{font-size:.72rem;font-weight:700;color:var(--blue);margin-bottom:2px}
+.card{background:var(--card);border-radius:10px;padding:10px 13px;box-shadow:0 1px 4px rgba(0,0,0,.04);font-size:.82rem}
+.card .t{font-weight:600}
+.card .d{color:var(--sub);font-size:.75rem;margin-top:2px}
+.card.speak{border-left:3px solid var(--orange);background:#fffbf5}
+.card.guest{border-left:3px solid #3498db;background:#f6fbfe}
+.card.meal{border-left:3px solid var(--red);background:#fef9f7}
+.card.travel{border-left:3px solid #1abc9c;background:#f0faf6}
+.dot-sam{background:var(--orange);box-shadow:0 0 0 2px rgba(230,126,34,.25)!important}
+.dot-flight{background:#3498db;box-shadow:0 0 0 2px rgba(52,152,219,.25)!important}
+.dot-car{background:#1abc9c;box-shadow:0 0 0 2px rgba(26,188,156,.25)!important}
+.dot-meal{background:var(--red);box-shadow:0 0 0 2px rgba(192,57,43,.25)!important}
+.dot-hotel{background:var(--purple);box-shadow:0 0 0 2px rgba(142,68,173,.25)!important}
+.dot-guest{background:#2980b9;box-shadow:0 0 0 2px rgba(41,128,185,.25)!important}
+.dot-def{background:var(--primary);box-shadow:0 0 0 2px rgba(26,58,107,.2)!important}
+
+/* 议程列表 */
+.agenda-list{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.06);margin-top:8px}
+.agenda-item{padding:10px 14px;border-bottom:1px solid #f5f5f5;display:flex;gap:10px}
+.agenda-item:last-child{border-bottom:none}
+.agenda-time{min-width:64px;font-size:.71rem;font-weight:700;color:var(--blue);flex-shrink:0;padding-top:1px}
+.agenda-body{flex:1;min-width:0}
+.agenda-title{font-size:.82rem;font-weight:600}
+.agenda-desc{font-size:.74rem;color:var(--sub);margin-top:2px;line-height:1.45}
+.agenda-speaker{font-size:.7rem;color:var(--primary);margin-top:3px;background:#eef3fa;border-radius:4px;padding:2px 7px;display:inline-block}
+.agenda-item.sam{background:#fff9f0}
+.agenda-item.sam .agenda-title::before{content:'⭐ ';font-size:.7rem}
+
+/* 客户卡片 */
+.guest-grid{display:grid;gap:7px;margin-top:8px}
+.guest-card{background:var(--card);border-radius:10px;padding:10px 13px;box-shadow:0 1px 4px rgba(0,0,0,.04);display:flex;align-items:flex-start;gap:10px}
+.guest-left{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;width:64px}
+.guest-time{font-size:.6rem;color:var(--primary);font-weight:800;text-align:center;line-height:1.3;background:#eef3fa;border-radius:6px;padding:2px 4px;width:100%}
+.guest-action{font-size:.6rem;color:#fff;padding:2px 5px;border-radius:7px;font-weight:700;white-space:nowrap;text-align:center;width:100%}
+.guest-right{flex:1;min-width:0}
+.guest-type{font-size:.62rem;padding:2px 7px;border-radius:6px;font-weight:700;height:20px;display:inline-flex;align-items:center;flex-shrink:0;white-space:nowrap}
+.type-cq{background:#e8f4fd;color:#2980b9}
+.type-cd{background:#fef4e8;color:#d35400}
+.type-cs{background:#f3e8fd;color:#7b1fa2}
+.type-bq{background:#e3f2fd;color:#1565c0}
+.type-dq{background:#e8f5e9;color:#2e7d32}
+.guest-info{flex:1;min-width:0}
+.guest-name{font-size:.83rem;font-weight:700}
+.guest-role{font-size:.73rem;color:var(--sub)}
+.agenda-btn{margin-top:6px;padding:5px 10px;border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:6px;font-size:.7rem;cursor:pointer;font-weight:600;width:100%}
+.agenda-btn:active{background:#eef3fa}
+.agenda-detail{display:none;margin-top:6px}
+.agenda-detail.show{display:block}
+.agenda-detail img{width:100%;border-radius:8px;}
+.action-chat{background:var(--orange)}
+.action-lunch{background:var(--red)}
+.action-talk{background:var(--purple)}
+.action-sign{background:var(--blue)}
+
+/* 提醒条 */
+.tip{background:#fef9e7;border:1px solid #f9e79f;border-radius:10px;padding:9px 12px;margin-top:10px;font-size:.77rem;color:#9a7d0a;display:flex;align-items:flex-start;gap:7px}
+.tip.warn{background:#fdedec;border-color:#fadbd8;color:#a93226}
+.tip.info{background:#ebf5fb;border-color:#aed6f1;color:#2471a3}
+
+/* 分隔标题 */
+.sec-title{font-size:.78rem;font-weight:700;color:var(--primary);padding:12px 0 6px 0;display:flex;align-items:center;gap:6px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--line)}
+
+@media print{
+  .header,.city-nav{display:none!important}
+  body{background:#fff}
+  .day-section{display:block!important;page-break-after:always}
+  .day-section:last-child{page-break-after:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部 -->
+<div class="header">
+  <h1>📋 4.26–4.30 深圳→重庆→成都</h1>
+  <div class="sub">2026年4月26日（周日）— 4月30日（周四）</div>
+</div>
+
+<!-- 导航 -->
+<nav class="city-nav" id="nav">
+  <button class="on" data-d="d26">4/26<br>上海·深圳</button>
+  <button data-d="d27">4/27<br>深圳·重庆</button>
+  <button data-d="d28">4/28<br>重庆·成都</button>
+  <button data-d="d29">4/29<br>成都</button>
+  <button data-d="d30">4/30<br>成都·上海</button>
+</nav>
+
+<!-- ==================== 4/26 ==================== -->
+<section class="day-section on" id="d26">
+<div class="day-head">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="day-num" style="background:linear-gradient(135deg,#3498db,#2980b9)">26</div>
+    <div class="day-info"><h3>周日 · 上海→深圳</h3><p>CZ3562 | 入住安达仕</p></div>
+  </div>
+  <span class="badge" style="background:#ebf5fb;color:#2980b9">出行</span>
+</div>
+<div class="body">
+  <div class="info-row"><span class="info-icon">✈️</span><div><div class="info-label">航班</div><div class="info-val">CZ3562 &nbsp; 16:40 → 19:20</div></div></div>
+  <div class="info-row"><span class="info-icon">🏨</span><div><div class="info-label">酒店</div><div class="info-val">深圳湾安达仕酒店</div></div></div>
+  <div class="tip info"><span>💡</span>晚间若琪、晓漫代彩排</div>
+</div>
+</section>
+
+<!-- ==================== 4/27 ==================== -->
+<section class="day-section" id="d27">
+<div class="day-head">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="day-num" style="background:linear-gradient(135deg,#e67e22,#d35400)">27</div>
+    <div class="day-info"><h3>周一 · 广东省AI大会 + 南山学堂私享会</h3><p>深圳福田会展中心 → 重庆白象公馆</p></div>
+  </div>
+  <span class="badge" style="background:#fef4e8;color:#d35400">⚡ 密集</span>
+</div>
+<div class="body">
+
+  <!-- 上午大会 -->
+  <div class="sec-title">📍 上午 — 广东省人工智能应用对接大会</div>
+  <div class="info-row"><span class="info-icon">👔</span><div><div class="info-label">着装</div><div class="info-val">正装，可不系领带</div></div></div>
+  <div class="info-row"><span class="info-icon">📍</span><div><div class="info-label">会场</div><div class="info-val">深圳福田会展中心 · 5楼梅花厅</div></div></div>
+  <div class="info-row"><span class="info-icon">🚗</span><div><div class="info-label">出发</div><div class="info-val">08:30 酒店出发（车程21min）</div></div></div>
+
+  <div class="agenda-list">
+    <div class="agenda-item"><div class="agenda-time">09:00-09:05</div><div class="agenda-body"><div class="agenda-title">开场视频</div></div></div>
+    <div class="agenda-item"><div class="agenda-time">09:05-09:20</div><div class="agenda-body"><div class="agenda-title">领导讲话</div><div class="agenda-desc">孟凡利省长；深圳市主要负责同志就深圳市建设AI先锋城市讲话</div></div></div>
+    <div class="agenda-item"><div class="agenda-time">09:20-09:23</div><div class="agenda-body"><div class="agenda-title">政策发布</div><div class="agenda-desc">广东省AI科技、人才、产业、金融等领域支持政策</div></div></div>
+    <div class="agenda-item"><div class="agenda-time">09:23-11:13</div><div class="agenda-body"><div class="agenda-title">典型案例介绍（共22项）</div><div class="agenda-desc">覆盖AI+科技/制造/纺织/玩具/家居/农业/法务/政务/设计/招投标/出海/医疗/教育/养老/水务/城市治理等22个场景</div></div></div>
+    <div class="agenda-item"><div class="agenda-time">11:13-11:28</div><div class="agenda-body"><div class="agenda-title">科研及供需平台推介</div></div></div>
+    <div class="agenda-item sam"><div class="agenda-time">11:28-11:53</div><div class="agenda-body"><div class="agenda-title">场内外产品宣传推介 ⭐</div><div class="agenda-desc" style="line-height:1.8;font-size:.73rem;">1. 华为公司昇腾系列产品及生态推介<br>2. 腾讯公司AI Agent全景战略发布<br>3. 晶泰科技公司AI赋能新药发现推介<br>4. 自变量机器人WALL-B世界统一模型暨具身智能基座设施发布</div></div></div>
+    <div class="agenda-item"><div class="agenda-time">11:53-12:00</div><div class="agenda-body"><div class="agenda-title">场外展区视频推介</div></div></div>
+  </div>
+
+  <div class="tl" style="margin-top:10px">
+    <div class="item"><div class="dot dot-car"></div><div class="time">≈11:50</div><div class="card travel"><div class="t">🚗 离场前往机场（车程40min）</div><div class="d">最晚11:50出发赶飞机</div></div></div>
+    <div class="item"><div class="dot dot-flight"></div><div class="time">13:25-15:45</div><div class="card travel"><div class="t">✈️ CZ3455 深圳宝安 → 重庆江北T3</div><div class="d">约2h20m</div></div></div>
+  </div>
+
+  <!-- 晚间南山学堂 -->
+  <div class="sec-title">🍷 下午/晚间 — 南山学堂高管私享会·重庆站</div>
+  <div class="info-row"><span class="info-icon">📍</span><div><div class="info-label">地点</div><div class="info-val">白象公馆（百年民国洋楼·复合文化空间）</div></div></div>
+
+  <div class="agenda-list">
+    <div class="agenda-item"><div class="agenda-time">16:30-17:00</div><div class="agenda-body"><div class="agenda-title">签到、原址参观、合影</div></div></div>
+    <div class="agenda-item"><div class="agenda-time">17:00-18:00</div><div class="agenda-body"><div class="agenda-title">深度交流&主题分享</div><div class="agenda-desc">《掘金AI新蓝海：Workbuddy助力伙伴业绩增长的"第二曲线"》</div></div></div>
+    <div class="agenda-item"><div class="agenda-time">18:00-20:30</div><div class="agenda-body"><div class="agenda-title">共聚晚宴</div><div class="agenda-desc">约24人</div></div></div>
+  </div>
+
+  <!-- 出席名单 -->
+  <div style="background:var(--card);border-radius:12px;padding:13px 15px;box-shadow:0 1px 6px rgba(0,0,0,.06);margin-top:10px;font-size:.76rem;line-height:1.9">
+    <div style="font-weight:700;color:var(--primary);font-size:.8rem;margin-bottom:7px;">👥 出席名单（共24人）</div>
+    <div style="margin-bottom:8px;"><span style="color:var(--blue);font-weight:700;">内部（10人）</span>：李强（VP）&nbsp; 王前 / 陈化 / 李钇龙（区域）&nbsp; 饶臻（行业）&nbsp; 杨晨 / 张果 / 陈曙光 / 丁振海 / 杨万桃（渠道）</div>
+    <div>
+      <span style="color:var(--blue);font-weight:700;">外部（14人）</span><br>
+      <span style="font-size:.72rem;">
+        <strong>南山学堂往期&三期学员企业代表（6家）：</strong>成都建梦·何杰 &nbsp;|&nbsp; 信永中和·傅世青 &nbsp;|&nbsp; 海光信息·应志伟 &nbsp;|&nbsp; 云链未来·黄鑫 &nbsp;|&nbsp; 悦智AI·邵臣 &nbsp;|&nbsp; 世纪恒通·廖毅<br>
+        <strong>定邀企业（8家）：</strong>容联易通·孙昌勋 &nbsp;|&nbsp; 中电金信·张京玉 &nbsp;|&nbsp; 重庆电信·沈清爽 &nbsp;|&nbsp; 重庆顶云·曾彦淞 &nbsp;|&nbsp; 成都启明长盛·黎贤文 &nbsp;|&nbsp; 重庆渝欧跨境·高亮 &nbsp;|&nbsp; 国人通教育·李振其 &nbsp;|&nbsp; 重庆群星引力AI·任聪
+      </span>
+    </div>
+  </div>
+
+  <!-- PDF 材料 -->
+  <div style="display:flex;gap:8px;margin-top:10px;">
+    <a href="tan-can.pdf" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;text-decoration:none;font-size:.78rem;font-weight:600;">📄 谈参材料</a>
+    <a href="jia-bin.pdf" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;text-decoration:none;font-size:.78rem;font-weight:600;">👥 嘉宾简介</a>
+  </div>
+
+  <div class="tl">
+    <div class="item"><div class="dot dot-car"></div><div class="time">≈21:00</div><div class="card travel"><div class="t">🚗 返回酒店（车程35min）</div><div class="d">重庆悦来温德姆酒店 / 悦来国际会议中心</div></div></div>
+    <div class="item"><div class="dot dot-def"></div><div class="time">晚间</div><div class="card"><div class="t">🎤 彩排时间待定</div><div class="d">次日峰会主论坛彩排</div></div></div>
+  </div>
+
+  <div class="tip warn"><span>⚠️</span>15:45落地的45分钟缓冲紧凑——建议直接去白象公馆，不绕酒店放行李</div>
+</div>
+</section>
+
+<!-- ==================== 4/28 ==================== -->
+<section class="day-section" id="d28">
+<div class="day-head">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="day-num" style="background:linear-gradient(135deg,#1abc9c,#16a085)">28</div>
+    <div class="day-info"><h3>周二 · 腾讯云城市峰会·重庆站</h3><p>主论坛 + 见客 + 晚间转场成都</p></div>
+  </div>
+  <span class="badge" style="background:#e8fdf5;color:#16a085">大会</span>
+</div>
+<div class="body">
+
+  <!-- 主论坛 -->
+  <div class="sec-title">📋 主论坛议程（10:00-12:30）</div>
+  <div class="agenda-list">
+    <div class="agenda-item"><div class="agenda-time">10:00-10:15</div><div class="agenda-body"><div class="agenda-title">政府致辞</div><div class="agenda-desc">展望AI产业发展新蓝图</div></div></div>
+    <div class="agenda-item sam"><div class="agenda-time">10:15-10:35</div><div class="agenda-body"><div class="agenda-title">Sam主题演讲 ⭐</div><div class="agenda-desc">解析AI驱动业务增长策略</div></div></div>
+    <div class="agenda-item"><div class="agenda-time">10:35-11:05</div><div class="agenda-body"><div class="agenda-title">产品焕新（Simon 吴运声）</div><div class="agenda-desc">聚焦最新AI产品/技术升级</div></div></div>
+    <div class="agenda-item"><div class="agenda-time">11:05-11:35</div><div class="agenda-body"><div class="agenda-title">产业实践</div><div class="agenda-desc">探索AI最佳落地路径</div><div class="agenda-speaker">李旭昶 — 新希望集团 CDO&数科CEO</div><div class="agenda-speaker" style="margin-top:2px;">杰夫 — 巨日禄AI创始人</div></div></div>
+    <div class="agenda-item"><div class="agenda-time">11:35-12:20</div><div class="agenda-body"><div class="agenda-title">圆桌对话：解码未来AI产业新风口</div><div class="agenda-desc" style="margin-top:4px;">
+          <div style="font-size:.73rem;line-height:1.7;">王强 — 腾讯研究院前沿科技研究中心主任<br>杨光伟 — 重庆麦芽传媒副总裁<br>刘美龄 — 海艺互娱 国内业务VP<br>唐沐 — 影智XBOT 创始人兼CEO<br>冯振宇 — 四川具身人形机器人 CEO&CTO</div>
+        </div></div></div>
+    <div class="agenda-item sam"><div class="agenda-time">12:20-12:30</div><div class="agenda-body"><div class="agenda-title">生态发布 ⭐</div><div class="agenda-desc" style="line-height:1.75;font-size:.73rem;">
+<strong>📢 宣讲</strong>（张果主持）<br><br>
+<strong>🚀 发布仪式</strong>（Sam + 14家伙伴上台）<br>
+动效视频约10秒 → 嘉宾触摸屏幕启动发布<br>
+<div style="margin-top:5px;padding:6px 9px;background:#f0f4ff;border-radius:6px;font-size:.7rem;line-height:1.7;">
+<strong>14家先锋伙伴：</strong><br>
+📋 咨询类：毕马威、信永中和<br>
+🌐 Global ISV：Orca、Fortinet<br>
+🛠️ MSP/CSP/ASP：长虹佳华、华云中盛、安畅、悦智、华讯<br>
+🏢 行业ISV：销售易、力维智联、宇信、容联云、泛微
+</div><br>
+<strong>🏅 先锋伙伴颁奖</strong>（Sam + 张果颁发）<br>
+为首批14家先锋伙伴颁发荣誉 → 合影
+</div></div></div>
+  </div>
+
+  <!-- 见客 -->
+  <div class="sec-title">🤝 重庆峰会·见客邀约</div>
+  <div class="guest-grid">
+
+    <!-- 开场致辞 -->
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">14:00-14:05</span>
+        <span class="guest-action action-talk">开场致辞</span>
+      </div>
+      <div class="guest-right">
+        <div class="guest-info">
+          <div class="guest-name">AI+协同办公与组织升级专场</div>
+          <button class="agenda-btn" onclick="toggleAgenda()">📋 议程：点击查看详情</button>
+          <div class="agenda-detail" id="agendaDetail">
+            <img src="agenda.png" style="width:100%;border-radius:8px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 容联云 -->
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">14:10-15:00</span>
+        <span class="guest-action action-talk">座谈</span>
+      </div>
+      <div class="guest-right">
+        <span class="guest-type type-cs">产生部</span>
+        <div class="guest-info"><div class="guest-name">容联云</div><div class="guest-role">孙昌勋 — 创始人&CEO（渠道leader冯笑容）</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>📌 <strong>主要背景</strong>：中国领先通讯云和金融AI智能体服务商，智能客服已从传统在线机器人升级为"大模型智能体+全渠道联络中心"，核心产品包括容犀AICC和容联七陌（SaaS客服），服务金融、政务、零售、出行等行业客户，在日本、新加坡、马来西亚等国家有独立主体及服务支撑能力</div>
+            <div>🎯 <strong>合作进展</strong>：2025年启动ASR/TTS、ADP等产品的合作，2025年合作金额约400万；达成3年合作规划，2026年合作目标1000万，重点在AI+出海，重点合作产品ASR、TTS、ADP等产品在智能客服、智能营销、智能运营、智能质检等方面，重点合作行业包括金融、出行、零售、政府等领域</div>
+            <div>📅 <strong>重要节点</strong>：2020年腾讯云参与容联F轮融资，作为其投资方之一；2021年2月纽交所上市（中国第一家赴美上市的SaaS企业）；2022年因315晚会点名其子公司容联七陌涉嫌骚扰电话，导致股价大跌；2023年因会计问题，容联云被纽交所退市</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 重庆麦芽传媒 -->
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">11:30-12:15</span>
+        <span class="guest-action action-talk">座谈+签约</span>
+      </div>
+      <div class="guest-right">
+        <span class="guest-type type-bq">北区</span>
+        <div class="guest-info"><div class="guest-name">重庆麦芽传媒</div><div class="guest-role">何云长 — CEO（销售leader李钇龙）</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>📌 <strong>行程说明</strong>：客户下午有重要会议需赶赴北京，为参加峰会特协调上午行程；座谈+签约安排在11:30-12:15主论坛圆桌期间，领导们移至VIP室进行</div>
+            <div>💰 <strong>收入贡献</strong>：月消耗50万以上</div>
+            <div>🎯 <strong>目前合作</strong>：AI漫剧/AI办公；VOD/MPS/GPU/TKE/COS/workbuddy等；50万/月以上</div>
+            <div>🚀 <strong>潜在商机</strong>：海外公有云winback；千万级</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 浩跃蓝江信息 -->
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">待定</span>
+        <span class="guest-action action-talk">座谈</span>
+      </div>
+      <div class="guest-right">
+        <span class="guest-type type-bq">北区</span>
+        <div class="guest-info"><div class="guest-name">浩跃蓝江信息</div><div class="guest-role">周洋 — 董事长（销售leader李钇龙）</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>📌 <strong>客户业务</strong>：私域营销，服务国内头部大健康及互联网医院客户，提供SCRM、客户画像管理、促活、私域直播、线上商城等服务</div>
+            <div>🎯 <strong>主要目的</strong>：1.销售易 &nbsp;2.生文模型在AI客服场景的应用合作</div>
+            <div>💰 <strong>合作概况</strong>：CDN流量、公有云IaaS、PaaS，当前年消200W/年，2026年有望突破400W/年</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 杭州视洞科技 -->
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">待定</span>
+        <span class="guest-type type-dq">东区</span>
+      </div>
+      <div class="guest-right">
+        <div class="guest-info"><div class="guest-name">杭州视洞科技</div><div class="guest-role">赵雪晶 — 合伙人/B端事业线CEO（销售leader Derick）</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>📌 <strong>主要背景</strong>：安防视频监控/IoT解决方案商，年产值约10亿，腾讯云年用量超2000万</div>
+            <div>🎯 <strong>合作契机</strong>：已上量1000万/年（含联通沃云主站+东南亚C端业务），后续存量份额提升+AI创新业务空间较大</div>
+            <div>📅 <strong>以往会面</strong>：25年3月 张彪总与Sam总上海峰会会晤；25年7月 前哥带队拜访张彪总；25年9月 雪晶总、朴兴国参加深圳生态大会</div>
+            <div>👥 <strong>出席说明</strong>：张彪总行程冲突，委派雪晶总代表出席（张彪=董事长；赵雪晶=合伙人/B端负责人；朴兴国=C端业务CEO）</div>
+          </div>
+        </div>
+        <div style="text-align:right;margin-top:4px;"><span style="font-size:.65rem;color:var(--orange);font-weight:600;" title="待确认28号晚餐后赴成都">⚠️ 待确认晚餐+高铁</span></div>
+      </div>
+    </div>
+
+  <!-- 签约仪式 -->
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">待定</span>
+        <span class="guest-action action-sign">签约</span>
+      </div>
+      <div class="guest-right">
+        <div class="guest-info"><div class="guest-name">巨日禄&腾讯云战略合作签约仪式</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>🤝 <strong>客户侧</strong>：签约人：总经理斯宇；见签人：创始人杰夫</div>
+            <div>🤝 <strong>腾讯侧</strong>：签约人：Eric；见签人：Sam</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">待定</span>
+        <span class="guest-action action-sign">签约</span>
+      </div>
+      <div class="guest-right">
+        <div class="guest-info"><div class="guest-name">渝欧跨境&腾讯云AI战略合作签约仪式</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>📌 <strong>合作内容</strong>：公有云、twtalk、tokenhub、workbuddy等</div>
+            <div>🤝 <strong>客户侧</strong>：签约人：CTO齐杰；见签人：董事长苏毅</div>
+            <div>🤝 <strong>腾讯侧</strong>：签约人：Eric；见签人：Sam</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">待定</span>
+        <span class="guest-action action-sign">签约</span>
+      </div>
+      <div class="guest-right">
+        <div class="guest-info"><div class="guest-name">中国东信&腾讯云战略合作签约仪式</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>📌 <strong>合作内容</strong>：国际短信、tokenhub、公有云</div>
+            <div>🤝 <strong>客户侧</strong>：签约人：待定；见签人：总裁钟能</div>
+            <div>🤝 <strong>腾讯侧</strong>：签约人：Eric；见签人：Sam</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip info" style="margin-top:10px;"><span>💡 待确认：28日晚是否餐叙后赴成都</span>
+    <div style="margin-top:6px;font-size:.73rem;line-height:1.8;color:var(--sub);">
+      <div>🍽️ <strong>17:00-19:00</strong> 视洞科技晚餐（待确认）</div>
+      <div>🚗 <strong>19:00-19:40</strong> 晚餐地点 → 重庆北站（车程约40min）</div>
+      <div>🚄 <strong>20:24-22:00</strong> 高铁 G3428 重庆北 → 成都东（1h36m）</div>
+      <div>🚗 <strong>22:00-22:30</strong> 成都东站 → W酒店（车程约25min）</div>
+      <div>🏨 <strong>22:30+</strong> 入住成都W酒店</div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ==================== 4/29 ==================== -->
+<section class="day-section" id="d29">
+<div class="day-head">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="day-num" style="background:linear-gradient(135deg,#9b59b6,#8e44ad)">29</div>
+    <div class="day-info"><h3>周三 · 成都客户拜访</h3><p>海艺 / 俊云 / 恒图</p></div>
+  </div>
+  <span class="badge" style="background:#f4ecf7;color:#8e44ad">拜访</span>
+</div>
+<div class="body">
+  <div class="sec-title">🤝 成都·见客邀约</div>
+  <div class="guest-grid">
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">10:00</span>
+        <span class="guest-action action-talk">座谈</span>
+      </div>
+      <div class="guest-right">
+        <span class="guest-type type-cd">成都</span>
+        <div class="guest-info"><div class="guest-name">海艺互娱</div><div class="guest-role">马飞 — CEO</div></div>
+      </div>
+    </div>
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">11:30</span>
+        <span class="guest-action action-lunch">午餐</span>
+      </div>
+      <div class="guest-right">
+        <span class="guest-type type-cd">成都</span>
+        <div class="guest-info"><div class="guest-name">俊云科技</div><div class="guest-role">李超 — CEO / 赵永阳 — CTO</div></div>
+      </div>
+    </div>
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">14:00</span>
+        <span class="guest-action action-talk">座谈</span>
+      </div>
+      <div class="guest-right">
+        <span class="guest-type type-cd">成都</span>
+        <div class="guest-info"><div class="guest-name">恒图科技</div><div class="guest-role">段江 — CEO / 颜河 — CTO</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tl" style="margin-top:10px">
+    <div class="item"><div class="dot dot-def"></div><div class="time">下午</div><div class="card"><div class="t">🏢 返回公司开会</div></div></div>
+    <div class="item"><div class="dot dot-meal"></div><div class="time">晚间</div><div class="card meal"><div class="t">🍽️ 晚餐</div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- ==================== 4/30 ==================== -->
+<section class="day-section" id="d30">
+<div class="day-head">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="day-num" style="background:linear-gradient(135deg,#27ae60,#1e844e)">30</div>
+    <div class="day-info"><h3>周四 · 成都拜访 + 返沪</h3><p>乐曼多 / 鲁大师 → 上海</p></div>
+  </div>
+  <span class="badge" style="background:#eafaf1;color:#27ae60">返程</span>
+</div>
+<div class="body">
+  <div class="sec-title">🤝 成都·见客邀约（续）</div>
+  <div class="guest-grid">
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">10:00</span>
+        <span class="guest-action action-talk">座谈</span>
+      </div>
+      <div class="guest-right">
+        <span class="guest-type type-cd">成都</span>
+        <div class="guest-info"><div class="guest-name">乐曼多</div><div class="guest-role">王苏 — CEO（销售leader 李钇龙、李洪敏）</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>📌 <strong>客户业务</strong>：专注体育游戏，擅长篮球、足球等竞技品类，兼具自研与合作开发；4月新项目上线30w/月，第二个新篮球项目准备启动发行中；推出千面AI动捕业务，能高效生成精准动作数据，已在多领域广泛应用，并与腾讯QQ炫舞有过合作探讨</div>
+            <div>🎯 <strong>主要目的</strong>：1.基于目前游戏项目已有合作，加深客情保持后续全量腾讯云；2.千面AI（乐曼多新业务）探讨合作方向</div>
+            <div>💰 <strong>合作概况</strong>：ITS 500w/年，游戏项目全量腾讯云增到40w/月</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="guest-card">
+      <div class="guest-left">
+        <span class="guest-time">11:30</span>
+        <span class="guest-action action-lunch">座谈+餐叙</span>
+      </div>
+      <div class="guest-right">
+        <span class="guest-type type-cd">成都</span>
+        <div class="guest-info"><div class="guest-name">鲁大师</div><div class="guest-role">田野 — CEO</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tl" style="margin-top:10px">
+    <div class="item"><div class="dot dot-flight"></div><div class="time" style="color:var(--green)">16:00 或 16:45</div><div class="card travel" style="border-left:3px solid var(--green)"><div class="t">✈️ 成都 → 上海 返程</div><div class="d"><strong>16:00</strong> 东航中型机 &nbsp;|&nbsp; <strong>16:45</strong> 国航大飞机</div></div></div>
+  </div>
+
+  <div class="tip info"><span>💡</span>两班可选：东航早一班（中型机）/ 国航晚一班（大飞机），根据上午安排灵活选择</div>
+</div>
+</section>
+
+<script>
+// 锚点滚动
+const nav=document.getElementById('nav');
+nav.querySelectorAll('button').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    const sec=document.getElementById(this.dataset.d);
+    if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+// 滚动高亮当前日期
+const sections=document.querySelectorAll('.day-section');
+const navBtns=document.querySelectorAll('#nav button');
+function highlightNav(){
+  let active=null;
+  sections.forEach(s=>{
+    const rect=s.getBoundingClientRect();
+    if(rect.top<=150 && rect.bottom>100)active=s;
+  });
+  navBtns.forEach(b => b.classList.remove('on'));
+  if(active){
+    const tgt=document.querySelector(`#nav button[data-d="${active.id}"]`);
+    if(tgt)tgt.classList.add('on');
+  }
+}
+window.addEventListener('scroll',highlightNav,{passive:true});
+highlightNav();
+
+function toggleAgenda(){
+  const el=document.getElementById('agendaDetail');
+  if(el.classList.contains('show')){el.classList.remove('show')}
+  else{el.classList.add('show')}
+}
+</script>
+</body>
+</html>
