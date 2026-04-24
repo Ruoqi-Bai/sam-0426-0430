@@ -93,10 +93,10 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
 .agenda-detail{display:none;margin-top:6px}
 .agenda-detail.show{display:block}
 .agenda-detail img{width:100%;border-radius:8px;}
-.action-chat{background:var(--orange)}
-.action-lunch{background:var(--red)}
-.action-talk{background:var(--purple)}
-.action-sign{background:var(--blue)}
+.action-speech{background:#6c5ce7}
+.action-meeting{background:#0984e3}
+.action-lunch{background:#e17055}
+.action-sign{background:#00b894}
 
 /* 提醒条 */
 .tip{background:#fef9e7;border:1px solid #f9e79f;border-radius:10px;padding:9px 12px;margin-top:10px;font-size:.77rem;color:#9a7d0a;display:flex;align-items:flex-start;gap:7px}
@@ -205,8 +205,8 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
 
   <!-- PDF 材料 -->
   <div style="display:flex;gap:8px;margin-top:10px;">
-    <a href="tan-can.pdf" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;text-decoration:none;font-size:.78rem;font-weight:600;">📄 谈参材料</a>
-    <a href="jia-bin.pdf" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;text-decoration:none;font-size:.78rem;font-weight:600;">👥 嘉宾简介</a>
+    <a href="tan-can.pdf" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;text-decoration:none;font-size:.75rem;font-weight:700;box-shadow:0 2px 8px rgba(102,126,234,.35);transition:.2s;">📄 谈参材料（点击查看PDF）</a>
+    <a href="jia-bin.pdf" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;text-decoration:none;font-size:.75rem;font-weight:700;box-shadow:0 2px 8px rgba(245,87,108,.35);transition:.2s;">👥 嘉宾简介（点击查看PDF）</a>
   </div>
 
   <div class="tl">
@@ -291,7 +291,7 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
     <div class="guest-card">
       <div class="guest-left">
         <span class="guest-time">14:00-14:05</span>
-        <span class="guest-action action-talk">开场致辞</span>
+        <span class="guest-action action-speech">开场致辞</span>
       </div>
       <div class="guest-right">
         <div class="guest-info">
@@ -332,7 +332,7 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
     <div class="guest-card">
       <div class="guest-left">
         <span class="guest-time">14:10-15:00</span>
-        <span class="guest-action action-talk">座谈</span>
+        <span class="guest-action action-meeting">座谈</span>
       </div>
       <div class="guest-right">
         <span class="guest-type type-cs">产生部</span>
@@ -368,7 +368,7 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
     <div class="guest-card">
       <div class="guest-left">
         <span class="guest-time">15:45-16:15</span>
-        <span class="guest-action action-talk">座谈</span>
+        <span class="guest-action action-meeting">座谈</span>
       </div>
       <div class="guest-right">
         <span class="guest-type type-bq">北区</span>
@@ -387,7 +387,7 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
     <div class="guest-card">
       <div class="guest-left">
         <span class="guest-time">16:15-17:00</span>
-        <span class="guest-action action-talk">1on1沟通</span>
+        <span class="guest-action action-meeting">1on1沟通</span>
       </div>
       <div class="guest-right">
         <div class="guest-info"><div class="guest-name">预留沟通时间</div><div class="guest-role">自由安排</div></div>
@@ -421,11 +421,15 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
     <div class="guest-card">
       <div class="guest-left">
         <span class="guest-time">10:00</span>
-        <span class="guest-action action-talk">座谈</span>
+        <span class="guest-action action-meeting">座谈</span>
       </div>
       <div class="guest-right">
         <span class="guest-type type-cd">成都</span>
-        <div class="guest-info"><div class="guest-name">海艺互娱</div><div class="guest-role">马飞 — CEO</div></div>
+        <div class="guest-info"><div class="guest-name">海艺互娱</div><div class="guest-role">马飞 — CEO（销售leader 李钇龙、李洪敏）</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>🎯 <strong>主要目的</strong>：1. 推进全站存储搬迁 &nbsp;2. 交流腾讯AI规划与可合作点</div>
+            <div>💰 <strong>合作概况</strong>：API调用 ITS 5000w/年，腾讯云100w/月（deepseek+超分+混元3D），迁移中50w/月</div>
+          </div></div>
       </div>
     </div>
     <div class="guest-card">
@@ -441,11 +445,16 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
     <div class="guest-card">
       <div class="guest-left">
         <span class="guest-time">14:00</span>
-        <span class="guest-action action-talk">座谈</span>
+        <span class="guest-action action-meeting">座谈</span>
       </div>
       <div class="guest-right">
         <span class="guest-type type-cd">成都</span>
-        <div class="guest-info"><div class="guest-name">恒图科技</div><div class="guest-role">段江 — CEO / 颜河 — CTO</div></div>
+        <div class="guest-info"><div class="guest-name">恒图科技（Fotor）</div><div class="guest-role">段江 — CEO / 颜河 — CTO（销售leader 李钇龙、李洪敏）</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>📌 <strong>客户业务</strong>：AI+出海，多模态创意平台，覆盖桌面端、在线网站及移动端的图像与视频编辑、平面设计等服务平台，主要出海欧美等国家</div>
+            <div>🎯 <strong>主要目的</strong>：1. 交流腾讯的出海和AI两个方向的战略规划 &nbsp;2. 探讨在AI和出海方向双方的更多合作点</div>
+            <div>💰 <strong>合作概况</strong>：算力资源&大模型，年消当前200W/年；客户整体IT规模2000W/年</div>
+          </div></div>
       </div>
     </div>
   </div>
@@ -462,7 +471,7 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
 <div class="day-head">
   <div style="display:flex;align-items:center;gap:10px">
     <div class="day-num" style="background:linear-gradient(135deg,#27ae60,#1e844e)">30</div>
-    <div class="day-info"><h3>周四 · 成都拜访 + 返沪</h3><p>乐曼多 / 鲁大师 → 上海</p></div>
+    <div class="day-info"><h3>周四 · 成都拜访 + 返沪</h3><p>乐曼多 / 奇鲁科技(鲁大师) → 上海（15:30 3U8889）</p></div>
   </div>
   <span class="badge" style="background:#eafaf1;color:#27ae60">返程</span>
 </div>
@@ -472,7 +481,7 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
     <div class="guest-card">
       <div class="guest-left">
         <span class="guest-time">10:00</span>
-        <span class="guest-action action-talk">座谈</span>
+        <span class="guest-action action-meeting">座谈</span>
       </div>
       <div class="guest-right">
         <span class="guest-type type-cd">成都</span>
@@ -488,20 +497,25 @@ body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;backgro
     <div class="guest-card">
       <div class="guest-left">
         <span class="guest-time">11:30</span>
-        <span class="guest-action action-lunch">座谈+餐叙</span>
+        <span class="guest-action action-lunch">座谈&午餐</span>
       </div>
       <div class="guest-right">
         <span class="guest-type type-cd">成都</span>
-        <div class="guest-info"><div class="guest-name">鲁大师</div><div class="guest-role">田野 — CEO</div></div>
+        <div class="guest-info"><div class="guest-name">成都奇鲁科技（鲁大师）</div><div class="guest-role">田野 — 董事长（销售leader 李钇龙、冯振华）</div>
+          <div style="font-size:.68rem;color:var(--sub);margin-top:5px;line-height:1.7;">
+            <div>📌 <strong>主要背景</strong>：阿里云西南区头部客户，PC工具行业头部客户，目前在PC工具、游戏、AI智能硬件方面发展多元化业务；2025年10月达成全面winback合作协议，截止3月底，月耗已逐步上量至70万+/月</div>
+            <div>🎯 <strong>目前契机</strong>：基于已经达成的迁移合作，继往开来夯实未来更多的合作机会</div>
+            <div>📅 <strong>过往会面</strong>：前总于2025年11月5日，拜访鲁大师董事长田野，推进签约后的迁移计划落地</div>
+          </div></div>
       </div>
     </div>
   </div>
 
   <div class="tl" style="margin-top:10px">
-    <div class="item"><div class="dot dot-flight"></div><div class="time" style="color:var(--green)">16:00 或 16:45</div><div class="card travel" style="border-left:3px solid var(--green)"><div class="t">✈️ 成都 → 上海 返程</div><div class="d"><strong>16:00</strong> 东航中型机 &nbsp;|&nbsp; <strong>16:45</strong> 国航大飞机</div></div></div>
+    <div class="item"><div class="dot dot-flight" style="background:#2d3433;"></div><div class="time" style="color:#2d3433;font-weight:800;">15:30</div><div class="card travel" style="border-left:3px solid #2d3433;background:#f4f5f0"><div class="t">✈️ 3U8889 成都 → 上海 返程</div><div class="d">15:30 起飞，四川航空</div></div></div>
   </div>
 
-  <div class="tip info"><span>💡</span>两班可选：东航早一班（中型机）/ 国航晚一班（大飞机），根据上午安排灵活选择</div>
+  <div class="tip info"><span>💡</span>两班可选：东航早一班（中型机）/ 国航晚一班（大飞机），请于15:30前结束上午行程，前往机场</div>
 </div>
 </section>
 
